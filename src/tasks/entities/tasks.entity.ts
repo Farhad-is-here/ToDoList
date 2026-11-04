@@ -8,7 +8,18 @@ import {
 } from 'typeorm';
 import { User } from '../../user/entities/user.entity';
 
-@Entity('tasks')                     // lowercase table name is better
+export enum TaskPriority{
+  LOW ='LOW',
+  MEDIUM = 'MEDIUM',
+  HIGH = 'HIGH'}
+
+export enum TaskStatus{
+  TODO = 'TODO',
+  IN_PROGRESS = 'IN_PROGRESS',
+  DONE = 'DONE'
+}
+
+@Entity('tasks')                   
 export class Task {
   @PrimaryGeneratedColumn('uuid')
   id!: string;
@@ -16,9 +27,22 @@ export class Task {
   @Column()
   message!: string;
 
-  // Many tasks belong to one user
+  @Column({
+    type: 'enum',
+    enum: TaskPriority,
+    default: TaskPriority.MEDIUM,
+  })
+  priority!: TaskPriority;
+
+  @Column({
+    type: 'enum',
+    enum: TaskStatus,
+    default: TaskStatus.TODO
+  })
+  status!: TaskStatus;
+
   @ManyToOne(() => User, (user) => user.tasks, {
-    onDelete: 'CASCADE',             // optional but recommended
+    onDelete: 'CASCADE',
   })
   sender!: User;
 
