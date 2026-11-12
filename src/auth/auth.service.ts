@@ -6,7 +6,6 @@ import { JwtService } from '@nestjs/jwt';
 import { SignUpDto } from './dto/signup.dto';
 import * as bcrypt from 'bcrypt';
 import { SignInDto } from './dto/signin.dto';
-import { NotFoundError } from 'rxjs';
 
 @Injectable()
 export class AuthService {
